@@ -1,0 +1,11 @@
+@import 'color.css';
+
+body {
+	background-color: var(--bgColor);
+	color: var(--fontColor);
+	font-family: sans-serif;
+}
+
+svg {
+	width: 2em;
+}

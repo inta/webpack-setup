@@ -1,0 +1,9 @@
+:root {
+	--fontColor: #313131;
+	--bgColor: #fefefe;
+	--primaryColor: #048;
+	--secondaryColor: #444;
+	--errorColor: #a10;
+	--noticeColor: #fa0;
+	--successColor: #080;
+}
