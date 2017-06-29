@@ -1,6 +1,6 @@
 {
   "name": "webpack-setup",
-  "description": "Webpack 2 sample setup",
+  "description": "Webpack sample setup",
   "version": "0.1.0",
   "license": "Unlicense",
   "private": true,
@@ -16,6 +16,7 @@
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
+    "html-loader": "^0.4.5",
     "mithril": "^1.1.1",
     "postcss": "^5.2.17",
     "postcss-cssnext": "^2.10.0",

@@ -4,14 +4,30 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const isProd = process.argv.indexOf('-p') > -1;
 
+const extractCss = new ExtractTextPlugin({
+	filename: '[name].css',
+	allChunks: true
+});
+const extractHtml = new ExtractTextPlugin({
+	filename: 'index.html'
+});
+
 const cfg = {
 	context: path.resolve(__dirname, 'src'),
+	resolve: {
+		alias: {
+			translation$: path.resolve(__dirname, 'src/js/translation.js'),
+			css: path.resolve(__dirname, 'src/css'),
+			img: path.resolve(__dirname, 'src/img')
+		}
+	},
 	entry: {
 		main: './js/main.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].js'
+		filename: '[name].js',
+		publicPath: path.resolve(__dirname, 'dist')
 	},
 	node: {
 		global: !isProd,
@@ -29,7 +45,7 @@ const cfg = {
 			},
 			{
 				test: /\.css$/,
-				use: ExtractTextPlugin.extract([
+				use: extractCss.extract([
 					{
 						loader: 'css-loader',
 						options: {
@@ -58,7 +74,7 @@ const cfg = {
 				])
 			},
 			{
-				test: /\.(svg)$/,
+				test: /\.svg$/,
 				use: [
 					'svg-inline-loader',
 					{
@@ -72,6 +88,25 @@ const cfg = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.(jpg|png)$/,
+				use: [{
+					loader: 'file-loader',
+					options: {
+						name: '[path][name].[ext]'
+					}
+				}]
+			},
+			{
+				test: /\.html$/,
+				use: extractHtml.extract([{
+					loader: 'html-loader',
+					options: {
+						// attrs: ['img:src', 'link:href'], // does not work?!
+						minimize: true
+					}
+				}])
 			}
 		]
 	},
@@ -81,17 +116,10 @@ const cfg = {
 			filename: 'commons.js',
 			minChunks: 2
 		}),*/
-		new ExtractTextPlugin({
-			filename: '[name].css',
-			allChunks: true
-		})
+		extractCss,
+		extractHtml
 	],
-	devtool: 'source-map',
-	devServer: {
-		contentBase: path.resolve(__dirname, 'src'),
-		watchContentBase: true,
-		historyApiFallback: true
-	}
+	devtool: 'source-map'
 };
 
 // HMR
